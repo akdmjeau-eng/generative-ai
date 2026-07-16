@@ -48,7 +48,7 @@ Quickbot provides a growing set of pre-built templates:
       <source src="./multi-agent-travel-concierge-with-adk/assets/quickbot-adk-travel-multiagent.mp4" type="video/mp4">
       Your browser does not support the video tag. You can <a href="./multi-agent-travel-concierge-with-adk/assets/quickbot-adk-travel-multiagent.mp4">download the video here</a>.
     </video>
-* **[Image Generation Template](./image-generation-template/):** A custom AI Agent that integrates with <a href="https://deepmind.google/models/imagen/" target="_blank" class="underline font-bold">Imagen 4</a>, <a href="https://ai.google.dev/gemini-api/docs/imagen?hl=es-419" target="_blank" class="underline font-bold">Imagen 3</a> and <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-0-flash?hl=es-419" target="_blank" class="underline font-bold">Gemini 2.0</a> for text-to-image generation.
+* **[Image Generation Template](./image-generation-template/):** A custom AI Agent that integrates with <a href="https://deepmind.google/models/imagen/" target="_blank" class="underline font-bold">Imagen 4</a>, <a href="https://ai.google.dev/gemini-api/docs/imagen?hl=es-419" target="_blank" class="underline font-bold">Imagen 3</a> and <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-0-flash?hl=es-419" target="_blank" class="underline font-bold">Gemini 3</a> for text-to-image generation.
 * **[LinkedIn Profile Image Generation Template](./linkedin-profile-image-generation-template/):** A specialized AI Agent leveraging Imagen's latest features for image editing and recognition to help you create customized professional corporate profile photos.
 * **[Background Changer Image Generation Template](./background-changer-image-generation-template/):** An AI Agent using Imagen's image editing capabilities to customize your product, graphic, car, or pet images, generating professional catalog-style photos with new backgrounds.
 * **[Document Search Template](./document-search-template/):** An AI Agent that provides answers based on documents and information you provide beforehand. Integrated with Vertex AI Search (ex Agent Builder), Cloud Storage, and Cloud Run.
@@ -79,7 +79,7 @@ This is the **simplest way to get the entire application (frontend and backend) 
 1.  **Ensure Docker and Docker Compose v2 are installed and running.**
 
 2.  **Authenticate with Google Cloud:**
-    Your template (agents with Agent Engine, Imagen 4, VertexAI Search, etc) will need to interact with Google Cloud services, so you need to provide Google Cloud credentials. For local development with ADC:
+    Your template (agents with Agent Engine, Imagen 4, VertexAI Search, etc.) will need to interact with Google Cloud services, so you need to provide Google Cloud credentials. For local development with ADC:
     ```bash
     gcloud auth application-default login
     gcloud config set project <your-gcp-project-id> # If using a specific GCP project

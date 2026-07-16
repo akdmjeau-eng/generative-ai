@@ -1,12 +1,11 @@
 # Generative AI on Google Cloud
 
-> **[Gemini 2.5 Pro](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-pro) and [Gemini 2.5 Flash](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/2-5-flash) have been released!**
+> **[Gemini 3 Flash](https://cloud.google.com/vertex-ai/generative-ai/docs/models/gemini/3-flash) has been released!**
 >
-> Here are the latest notebooks and demos using the new models:
+> Here are the latest notebooks and demos using the new model:
 >
-> - [Intro to Gemini 2.5 Pro](gemini/getting-started/intro_gemini_2_5_pro.ipynb)
-> - [Intro to Gemini 2.5 Flash](gemini/getting-started/intro_gemini_2_5_flash.ipynb)
-
+> - [Intro to Gemini 3 Flash](gemini/getting-started/intro_gemini_3_flash.ipynb)
+>
 <!-- markdownlint-disable MD033 -->
 
 This repository contains notebooks, code samples, sample apps, and other resources that demonstrate how to use, develop and manage generative AI workflows using [Generative AI on Google Cloud](https://cloud.google.com/ai/generative-ai) with [Vertex AI](https://cloud.google.com/vertex-ai).
@@ -100,6 +99,8 @@ This repository contains notebooks, code samples, sample apps, and other resourc
   - It accelerates development by providing a holistic, production-ready solution, addressing common challenges (Deployment & Operations, Evaluation, Customization, Observability) in building and deploying Gen AI agents.
 - [Gemini Cookbook](https://github.com/google-gemini/cookbook/)
 - [Google Cloud Applied AI Engineering](https://github.com/GoogleCloudPlatform/applied-ai-engineering-samples)
+- [Vertex AI GenMedia Creative Studio](https://github.com/GoogleCloudPlatform/vertex-ai-creative-studio) - Experience Google's generative media foundational models + custom workflows.
+- [MCP Servers for GenMedia](https://goo.gle/vertex-genmedia-mcp) - Empower your agents with generative media tools.
 - [Generative AI for Marketing using Google Cloud](https://github.com/GoogleCloudPlatform/genai-for-marketing)
 - [Generative AI for Developer Productivity](https://github.com/GoogleCloudPlatform/genai-for-developers)
 - Vertex AI Core

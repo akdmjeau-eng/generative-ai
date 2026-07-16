@@ -89,7 +89,7 @@ def query_fastapi(
         "qa_followup": qa_followup,
         "hybrid_retrieval": hybrid_retrieval,
         "evaluate_response": evaluate_response,
-        "eval_model_name": "gemini-2.0-flash",
+        "eval_model_name": "gemini-3-flash-preview",
         "embedding_model_name": "text-embedding-005",
     }
     headers = {"accept": "application/json", "Content-Type": "application/json"}
@@ -130,7 +130,7 @@ def extract_top_titles_and_content(response, num_chunks=3):
 
 st.set_page_config(
     layout="wide",
-    page_title="LlamaIndex Advanced Agentic RAG Implenentation Chatbot",
+    page_title="LlamaIndex Advanced Agentic RAG Implementation Chatbot",
     page_icon=":speech_balloon:",
 )
 
@@ -293,7 +293,7 @@ st.sidebar.markdown("#### 🛠️ RAG Configurations")
 
 st.sidebar.markdown("##### 🤖 LLM Model")
 llm_name = st.sidebar.selectbox(
-    "Select a model:", ["gemini-2.0-flash", "gemini-2.0-flash", "claude-sonnet-3.5"]
+    "Select a model:", ["gemini-3-flash-preview", "gemini-3-flash-preview", "claude-sonnet-3.5"]
 )
 
 st.sidebar.markdown("##### 🌡️ Temperature")
