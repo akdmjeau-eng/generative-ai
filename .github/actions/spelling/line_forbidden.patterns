@@ -33,7 +33,7 @@
 \b[Cc]an not\b
 
 # Should be `GitHub`
-(?<![&*.]|// |\btype )\bGithub\b(?![{)])
+(?<![&*.]|// |\btype |\bimport )\bGithub\b(?![{()])
 \b[Gg]it\s[Hh]ub\b
 
 # Should be `GitLab`
@@ -199,16 +199,22 @@
 # Should be Hugging Face
 \s(?!Hugging Face\b)[Hh]ugging\s?[Ff]ace?\b
 
+# Should be DeepSeek
+\b(?!DeepSeek\b)(?!deepseek\b)[Dd]eep\s?[Ss]eek?\b
+
 # Should be Vertex AI
 \b(?!Vertex AI\b)(?!.*[\(\)\{\},])(?<!import\s)(?<!\.)(?<!,\s)Vertex\s?[Aa]?[Ii]?\b
+
+# Should be Vertex AI
+\b[Vv]ertext\b
 
 # Should be Gemini
 \sgemini\s\w
 
-# Should be `Gemini Version Size` (e.g. `Gemini 1.0 Pro`)
+# Should be `Gemini Version Size` (e.g. `Gemini 2.0 Flash`)
 \bGemini\s(Pro|Flash|Ultra)\s?\d\.\d\b
 
-# Gemini Size should be capitalized (e.g. `Gemini 1.0 Pro`)
+# Gemini Size should be capitalized (e.g. `Gemini 2.0 Flash`)
 \bGemini\s?\d\.\d\s(pro|flash|ultra)\b
 
 # Don't say "Google Gemini" or "Google Gemini"
@@ -219,6 +225,9 @@
 
 # Should be Gemini API in Vertex AI
 \b[Vv]ertex\s[Aa][Ii]\s[Gg]emini\s[Aa][Pp][Ii]\b
+
+# Should be Gemini Enterprise
+[Aa]gent\s?[Ss]pace
 
 # Should be Imagen
 \simagen\s\w
@@ -272,16 +281,10 @@
 \bVertex\sVector\sSearch\b
 
 # Should be Colab
-\s(?!Colab)[Cc]o[Ll][Ll]?abs?\b
-
-# Should be Kaggle
-\skaggle\b
+\s(?!Colab)Co[Ll][Ll]?abs?\b
 
 # Should be TPU or TPUs
 \btpus?\b
-
-# Should be GKE
-\sgke\s
 
 # Should be GCS
 \sgcs\s
@@ -302,7 +305,7 @@
 \w \w
 
 # Don't use "smart quotes"
-(?!'")[‘’“”]
+(?<!["'])[‘’“”](?!["'])
 
 # "an" should only be before vowels.
 \ban\s+(?![FHLMNRSX][A-Z0-9]+\b)(?!hour\b)(?!honest\b)([b-df-hj-np-tv-zB-DF-HJ-NP-TV-Z]{1}\w*)
@@ -312,3 +315,16 @@
 
 # Use `%pip` instead of `!pip` or `!pip3`
 !\s?pip3?
+
+# Don't use embedded images, upload to Google Cloud Storage
+\(data:image/(?:jpeg|png);base64,[^{]
+
+# Don't use Gemini 1.X
+gemini-1\.[05]
+
+# Use the Google Gen AI SDK `google-genai`
+google-generativeai
+from google import generativeai
+
+# Don't restart the kernel, use `%pip` when installing
+app\.kernel\.do_shutdown\(True\)

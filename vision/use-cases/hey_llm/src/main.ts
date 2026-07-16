@@ -19,13 +19,14 @@ import type {GenerateContentResponse} from '@google-cloud/vertexai';
 
 /**
  * Vertex AI location. Change this const if you want to use another location.
+ * us-central1 is chosen as default to currently provide the most model availability. See [Vertex AI locations documentation](https://cloud.google.com/vertex-ai/docs/general/locations) for more details.
  */
-const LOCATION = 'asia-northeast1';
+const LOCATION = 'us-central1';
 
 /**
  * Default Gemini model to use.
  */
-const DEFAULT_GEMINI_MODEL = 'gemini-1.5-flash';
+const DEFAULT_GEMINI_MODEL = 'gemini-2.0-flash';
 
 /**
  * Default Imagen model to use.
@@ -233,7 +234,7 @@ function setClientSecret(val: string) {
  * @param {string} input The input data to process based on the instruction.
  * @param {string[][]} context Optional context that LLM should be aware of.
  *   You can specify a cell range that includes examples, reference data, etc.
- * @param {string} model The Gemini model version to use (default: gemini-1.5-flash).
+ * @param {string} model The Gemini model version to use (default: gemini-2.0-flash).
  *   See https://cloud.google.com/vertex-ai/generative-ai/docs/learn/models for available models.
  * @return {string} The LLM's response, trimmed and ready for use in a spreadsheet cell.
  * @customFunction

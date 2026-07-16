@@ -1,6 +1,6 @@
 # FixMyCar
 
-FixMyCar is a retrieval-augmented generation (RAG) sample application, powered by Google Cloud, including: Gemini on Vertex AI, Vertex AI Agent Builder, Google Kubernetes Engine (GKE), Java (Spring), and Python (Streamlit). This doc guides you through deploying this app to your Google Cloud project.
+FixMyCar is a retrieval-augmented generation (RAG) sample application, powered by Google Cloud, including: Gemini on Vertex AI, Vertex AI Search, Google Kubernetes Engine (GKE), Java (Spring), and Python (Streamlit). This doc guides you through deploying this app to your Google Cloud project.
 
 ![](images/architecture.png)
 
@@ -22,7 +22,7 @@ This is where you'll store your container images for the Streamlit frontend and 
 
 2. Click **Create Repository.**
 
-3. Name your repository `fixmycar`. Keep the default `Docker` option. Choose any region, eg. `us-central1`. Then click **Create.**
+3. Name your repository `fixmycar`. Keep the default `Docker` option. Choose any region, e.g. `us-central1`. Then click **Create.**
 
 ## Build and push container images.
 
@@ -70,11 +70,11 @@ You will deploy these two container images ("frontend" and "backend") to [Google
 
 2. From the Kubernetes Engine console, click **Create** to open the cluster-creation wizard.
 
-3. Keep all defaults (GKE Autopilot). Give your cluster any name you want, eg. `fixmycar`. Click **Create**.
+3. Keep all defaults (GKE Autopilot). Give your cluster any name you want, e.g. `fixmycar`. Click **Create**.
 
 This will take a few minutes to complete.
 
-4. When your cluster is ready, click on the name of the cluster, and click **Connect.** Copy the "Command line Access" command, eg.
+4. When your cluster is ready, click on the name of the cluster, and click **Connect.** Copy the "Command line Access" command, e.g.
 
 ```bash
 gcloud container clusters get-credentials fixmycar --region us-central1 --project my-project
@@ -108,7 +108,7 @@ Kubernetes control plane is running at https://34.69.121.152
 
 2. Click **Create Bucket.**
 
-3. Name your bucket something globally unique, eg. `<your-project-id>-fixmycar`. Keep all other default settings, then click **Create**. (You may see a notification about enforcing public access prevention - this is expected. Click "Confirm.")
+3. Name your bucket something globally unique, e.g. `<your-project-id>-fixmycar`. Keep all other default settings, then click **Create**. (You may see a notification about enforcing public access prevention - this is expected. Click "Confirm.")
 
 4. Copy the full name of your bucket by clicking the "copy" icon.
 
@@ -139,9 +139,9 @@ _Expected output_:
 Operation completed over 10 objects/156.6 MiB.
 ```
 
-## Set up Vertex AI Agent Builder
+## Set up Vertex AI Search
 
-You will store the Cymbal Starlight 2024 owner's manual in a Vertex AI Agent Builder data store. This will allow you to search the manual's contents using natural language queries.
+You will store the Cymbal Starlight 2024 owner's manual in a Vertex AI Search data store. This will allow you to search the manual's contents using natural language queries.
 
 1. Open the Cloud Console and search for "Agent Builder." Open the console page. If prompted, click **Activate API.**
 
@@ -165,9 +165,9 @@ You will store the Cymbal Starlight 2024 owner's manual in a Vertex AI Agent Bui
 
 9. Back in the application creation wizard, select the datastore you just created, then click **Create** to create your app.
 
-## Test Vertex AI Agent Builder datastore
+## Test Vertex AI Search datastore
 
-1. Back in the Data Stores page, click your new data store. Then click the **Activity** tab. You can view the status of your PDF processing here. Under the hood, Vertex AI Agent Builder is scanning your documents and converting them to vector embeddings. Then, it's storing those embeddings in the data store. **This may take around 10 minutes to complete.**
+1. Back in the Data Stores page, click your new data store. Then click the **Activity** tab. You can view the status of your PDF processing here. Under the hood, Vertex AI Search is scanning your documents and converting them to vector embeddings. Then, it's storing those embeddings in the data store. **This may take around 10 minutes to complete.**
 
 ![](images/datastore-activity.png)
 
@@ -181,7 +181,7 @@ You will store the Cymbal Starlight 2024 owner's manual in a Vertex AI Agent Bui
 
 ## Set up GKE auth to Vertex AI
 
-Your GKE-based backend server needs to access Vertex AI Agent Builder and Vertex AI's Gemini API. To do this, we'll map the Kubernetes service account used by the backend pod, to a Google Cloud IAM service account with the right permissions. Here, the Kubernetes-to-GCP service account mapping provides the _authentication_ ("who are you?"), and the Google Cloud service account's IAM roles provide _authorization_ ("what are you allowed to do?"). This setup is called [GKE Workload Identity.](https://cloud.google.com/kubernetes-engine/docs/concepts/workload-identity)
+Your GKE-based backend server needs to access Vertex AI Search and Vertex AI's Gemini API. To do this, we'll map the Kubernetes service account used by the backend pod, to a Google Cloud IAM service account with the right permissions. Here, the Kubernetes-to-GCP service account mapping provides the _authentication_ ("who are you?"), and the Google Cloud service account's IAM roles provide _authorization_ ("what are you allowed to do?"). This setup is called [GKE Workload Identity.](https://cloud.google.com/kubernetes-engine/docs/concepts/workload-identity)
 
 1. Run the setup script to configure auth.
 
@@ -214,7 +214,7 @@ image: us-central1-docker.pkg.dev/project123/fixmycar/frontend:latest
               value: "your-project-id"
 ```
 
-5. Lastly, update the `VERTEX_AI_DATASTORE_ID` env var in `backend-deployment-vertex-search.yaml` to use your Vertex AI Agent Builder Data Store ID. You can find this in the Console by clicking 'Data,' then copying the value of **Data Store ID**.
+5. Lastly, update the `VERTEX_AI_DATASTORE_ID` env var in `backend-deployment-vertex-search.yaml` to use your Vertex AI Search Data Store ID. You can find this in the Console by clicking 'Data,' then copying the value of **Data Store ID**.
 
 ```
             - name: VERTEX_AI_DATASTORE_ID
@@ -297,10 +297,10 @@ kubectl logs -l app=fixmycar-backend
 _Expected output_:
 
 ```bash
-fixmycar-backend-77cb969894-cfvbq fixmycar-backend 2024-03-23T23:35:07.059Z  INFO 1 --- [nio-8080-exec-4] c.c.f.FixMyCarBackendController          : 🔍 Vertex AI Agent Builder results: Chapter 6: Towing, Cargo, and Luggage Towing Your Cymbal Starlight 2024 is not equipped to tow a trailer. Cargo The Cymbal Starlight 2024 has a cargo capacity of <b>13.5 cubic feet</b>. The cargo area is located in the trunk of the vehicle.
+fixmycar-backend-77cb969894-cfvbq fixmycar-backend 2024-03-23T23:35:07.059Z  INFO 1 --- [nio-8080-exec-4] c.c.f.FixMyCarBackendController          : 🔍 Vertex AI Search results: Chapter 6: Towing, Cargo, and Luggage Towing Your Cymbal Starlight 2024 is not equipped to tow a trailer. Cargo The Cymbal Starlight 2024 has a cargo capacity of <b>13.5 cubic feet</b>. The cargo area is located in the trunk of the vehicle.
 fixmycar-backend-77cb969894-cfvbq fixmycar-backend 2024-03-23T23:35:07.060Z  INFO 1 --- [nio-8080-exec-4] c.c.f.FixMyCarBackendController          : 🔮 Gemini Prompt: You are a helpful car manual chatbot. Answer the car owner's question about their car. Human prompt: Cymbal Starlight 2024: what is the max cargo capacity?,
 fixmycar-backend-77cb969894-cfvbq fixmycar-backend  Use the following grounding data as context. This came from the relevant vehicle owner's manual: Chapter 6: Towing, Cargo, and Luggage Towing Your Cymbal Starlight 2024 is not equipped to tow a trailer. Cargo The Cymbal Starlight 2024 has a cargo capacity of <b>13.5 cubic feet</b>. The cargo area is located in the trunk of the vehicle.
 fixmycar-backend-77cb969894-cfvbq fixmycar-backend 2024-03-23T23:35:07.762Z  INFO 1 --- [nio-8080-exec-4] c.c.f.FixMyCarBackendController          : 🔮 Gemini Response: The Cymbal Starlight 2024 has a cargo capacity of 13.5 cubic feet. The cargo area is located in the trunk of the vehicle.
 ```
 
-Here, you can see how the backend is doing a search query to Vertex AI Agent Builder, then augmenting the Gemini prompt using the results. The Gemini response is then sent back to the frontend, and that's what you're seeing as the chatbot response in the browser.
+Here, you can see how the backend is doing a search query to Vertex AI Search, then augmenting the Gemini prompt using the results. The Gemini response is then sent back to the frontend, and that's what you're seeing as the chatbot response in the browser.
