@@ -1,0 +1,42 @@
+name: Validate Markdown Links
+
+on:
+  pull_request:
+    paths:
+      - '**.md'
+      - 'scripts/validate_markdown_links.py'
+  workflow_dispatch:
+  schedule:
+    - cron: "00 18 * * *"
+
+jobs:
+  validate-markdown-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Run Markdown Link Validator
+        id: validate
+        run: python scripts/validate_markdown_links.py
+        continue-on-error: true
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && steps.validate.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '❌ **Markdown Link Validation Failed**\n\nPlease run `python scripts/validate_markdown_links.py` locally to identify and fix broken links.\n\nSee the workflow run for details: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+            })
+
+      - name: Fail if errors found
+        if: steps.validate.outcome == 'failure'
+        run: exit 1
