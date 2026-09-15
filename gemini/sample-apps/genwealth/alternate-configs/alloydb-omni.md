@@ -97,9 +97,9 @@ Execute the steps below to install AlloyDB Omni on the GKE cluster. See the [All
 
     ```bash
     export GCS_BUCKET=alloydb-omni-operator
-    export HELM_PATH=$(gsutil cat gs://$GCS_BUCKET/latest)
+    export HELM_PATH=$(gcloud storage cat gs://$GCS_BUCKET/latest)
     export OPERATOR_VERSION="${HELM_PATH%%/*}"
-    gsutil cp -r gs://$GCS_BUCKET/$HELM_PATH ./
+    gcloud storage cp --recursive gs://$GCS_BUCKET/$HELM_PATH ./
     ```
 
 1. Install the AlloyDB Omni Operator
@@ -284,9 +284,9 @@ Execute the steps below to install AlloyDB Omni on the GKE cluster. See the [All
         id SERIAL PRIMARY KEY,  
         user_id INTEGER, 
         user_prompt TEXT, 
-    user_prompt_embedding VECTOR(768) GENERATED ALWAYS AS (google_ml.embedding('textembedding-gecko@003', user_prompt)::vector) STORED,
+    user_prompt_embedding VECTOR(768) GENERATED ALWAYS AS (google_ml.embedding('text-embedding-005', user_prompt)::vector) STORED,
         ai_response TEXT,
-    ai_response_embedding VECTOR(768) GENERATED ALWAYS AS (google_ml.embedding('textembedding-gecko@003', ai_response)::vector) STORED,
+    ai_response_embedding VECTOR(768) GENERATED ALWAYS AS (google_ml.embedding('text-embedding-005', ai_response)::vector) STORED,
         datetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP 
     );
 
@@ -343,7 +343,7 @@ Execute the steps below to install AlloyDB Omni on the GKE cluster. See the [All
     cd || echo "Could not cd into user profile root"
     mkdir -p /tmp/demo-data
     cd /tmp/demo-data || echo "Could not cd into user profile root"
-    gsutil -m cp \
+    gcloud storage cp \
       "gs://pr-public-demo-data/genwealth-demo/investments" \
       "gs://pr-public-demo-data/genwealth-demo/user_profiles" \
       "gs://pr-public-demo-data/genwealth-demo/llm.sql" .
@@ -376,7 +376,7 @@ Execute the steps below to install AlloyDB Omni on the GKE cluster. See the [All
     sql=$( cat <<EOF
     CREATE OR REPLACE FUNCTION update_overview_embedding() RETURNS trigger AS \$\$
     BEGIN
-      NEW.overview_embedding := google_ml.textembedding-gecko@003', NEW.overview)::vector;
+      NEW.overview_embedding := google_ml.text-embedding-005', NEW.overview)::vector;
       RETURN NEW;
     END;
     \$\$ LANGUAGE plpgsql;
@@ -389,7 +389,7 @@ Execute the steps below to install AlloyDB Omni on the GKE cluster. See the [All
     -- Analysis overview and function
     CREATE OR REPLACE FUNCTION update_analysis_embedding() RETURNS trigger AS \$\$
     BEGIN
-      NEW.analysis_embedding := google_ml.embedding('textembedding-gecko@003', NEW.analysis)::vector;
+      NEW.analysis_embedding := google_ml.embedding('text-embedding-005', NEW.analysis)::vector;
       RETURN NEW;
     END;
     \$\$ LANGUAGE plpgsql;

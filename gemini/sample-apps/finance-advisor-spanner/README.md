@@ -23,7 +23,7 @@ This demo highlights [Spanner](https://cloud.google.com/spanner), integration wi
 The Finvest Spanner demo application was built using:
 
 - [Spanner](https://cloud.google.com/spanner)
-- [Vertex AI](https://cloud.google.com/vertex-ai?hl=en) LLMs ([textembeddings-gecko@004](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/text-embeddings) )
+- [Vertex AI](https://cloud.google.com/vertex-ai?hl=en) LLMs ([text-embedding-005](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/text-embeddings) )
 - [Cloud Run](https://cloud.google.com/run)
 - [Dataflow](https://cloud.google.com/dataflow?)
 - [Streamlit](https://streamlit.io/)
@@ -36,7 +36,7 @@ The Finvest Spanner demo application was built using:
 
 3. [Switch](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects) to your new project.
 
-4. [Activate Cloud Shell](https://cloud.google.com/shell/docs/using-cloud-shell) and confirm your project by running the follow4ng commands. Click **Authorize** if prompted.
+4. [Activate Cloud Shell](https://cloud.google.com/shell/docs/using-cloud-shell) and confirm your project by running the following commands. Click **Authorize** if prompted.
 
    ```bash
    gcloud auth list
@@ -73,7 +73,7 @@ The Finvest Spanner demo application was built using:
 
    ```sql
    ALTER MODEL EmbeddingsModel SET OPTIONS (
-      endpoint = '//aiplatform.googleapis.com/projects/'YOUR PROJECT ID HERE'/locations/'YOUR SPANNER INSTANCE LOCATION HERE'/publishers/google/models/text-embedding-003'
+      endpoint = '//aiplatform.googleapis.com/projects/'YOUR PROJECT ID HERE'/locations/'YOUR SPANNER INSTANCE LOCATION HERE'/publishers/google/models/text-embedding-005'
       )
       ;
    ```
