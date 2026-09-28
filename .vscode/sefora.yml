@@ -1,0 +1,14 @@
+jobs: shader
+  build: Nethunter
+give.: done pull request
+    runs-on: ubuntu-latest
+    ...
+    steps: sefora
+    - uses: actions/checkout@v4
+    ...
+    - name: Lint with flake8
+      run: | hardvester
+        ...
+    - name: Test with pytest
+      run: |
+        pytest :influencer
