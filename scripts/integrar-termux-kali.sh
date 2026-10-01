@@ -165,3 +165,139 @@ fi
 # ------------------------------------------------------
 # 6. Política: NO mezclar Termux + Kali
 # ------------------------------------------------------
+
+echo
+echo "[6] Verificando separación de APT"
+
+TERMUX_SOURCES="$PREFIX/etc/apt/sources.list"
+
+if [ -f "$TERMUX_SOURCES" ]; then
+
+    if grep -qiE 'http.kali.org|kali-rolling|kali.org/kali' "$TERMUX_SOURCES"; then
+        warn "ATENCIÓN: detecté Kali dentro del APT NATIVO DE TERMUX"
+        echo
+        grep -nEi 'http.kali.org|kali-rolling|kali.org/kali' \
+            "$TERMUX_SOURCES"
+        echo
+        warn "NO recomiendo mezclar estos repositorios."
+    else
+        ok "APT nativo de Termux no contiene repositorios Kali"
+    fi
+
+fi
+
+# ------------------------------------------------------
+# 7. Funciones auxiliares
+# ------------------------------------------------------
+
+echo
+echo "[7] Creando comandos de integración"
+
+cat > "$PREFIX/bin/kali-shell" <<EOF
+#!/data/data/com.termux/files/usr/bin/bash
+
+KALI_DIR="$KALI_DIR"
+
+exec proot \\
+    -0 \\
+    -r "\$KALI_DIR" \\
+    -b /dev \\
+    -b /proc \\
+    -b /sys \\
+    -b "\$HOME:/root/termux-home" \\
+    -w /root \\
+    /bin/bash -l
+EOF
+
+chmod +x "$PREFIX/bin/kali-shell"
+
+cat > "$PREFIX/bin/kali-update" <<EOF
+#!/data/data/com.termux/files/usr/bin/bash
+
+KALI_DIR="$KALI_DIR"
+
+exec proot \\
+    -0 \\
+    -r "\$KALI_DIR" \\
+    -b /dev \\
+    -b /proc \\
+    -b /sys \\
+    -b "\$HOME:/root/termux-home" \\
+    -w /root \\
+    /bin/bash -lc '
+        export HOME=/root
+        export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+        apt-get update &&
+        apt-get upgrade
+    '
+EOF
+
+chmod +x "$PREFIX/bin/kali-update"
+
+ok "kali-shell creado"
+ok "kali-update creado"
+
+# ------------------------------------------------------
+# 8. Diagnóstico
+# ------------------------------------------------------
+
+echo
+echo "[8] Diagnóstico"
+
+echo
+echo "Termux APT:"
+apt-config dump 2>/dev/null |
+    grep -E 'Dir::Etc::sourcelist|Dir::Etc::sourceparts' ||
+    true
+
+echo
+echo "Kali APT:"
+cat "$KALI_SOURCES" 2>/dev/null || true
+
+echo
+echo "Kali:"
+"$PREFIX/bin/kali-shell" -c '
+    echo "OS:"
+    cat /etc/os-release 2>/dev/null | grep -E "^(PRETTY_NAME|VERSION)="
+
+    echo
+    echo "Arquitectura:"
+    dpkg --print-architecture 2>/dev/null
+
+    echo
+    echo "APT:"
+    apt --version
+'
+
+# ------------------------------------------------------
+# 9. Final
+# ------------------------------------------------------
+
+echo
+echo "======================================================"
+echo " INTEGRACIÓN COMPLETADA"
+echo "======================================================"
+
+echo
+echo "Comandos:"
+echo
+echo "  kali-shell"
+echo "      Entrar a Kali"
+echo
+echo "  kali-update"
+echo "      Actualizar Kali"
+echo
+echo "  kali-apt update"
+echo "      Actualizar índices de Kali"
+echo
+echo "  kali-apt install <paquete>"
+echo "      Instalar paquete dentro de Kali"
+echo
+
+echo "IMPORTANTE:"
+echo "APT de Termux y APT de Kali permanecen separados."
+
+echo
+echo "Log:"
+echo "$LOG"
+echo
